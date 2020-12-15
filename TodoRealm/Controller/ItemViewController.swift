@@ -39,21 +39,21 @@ class ItemViewController: UITableViewController {
         let save = UIAlertAction(title: "Save", style: .default) { (save) in
             
             if let currentCategory = self.selectedCategory {
-            
-            if let text = textField.text {
                 
-                if text.count > 1 {
-                    do {
-                        try self.realm.write {
-                            let newItem = Item()
-                            newItem.title = text
-                            
-                            currentCategory.items.append(newItem)
+                if let text = textField.text {
+                    
+                    if text.count > 1 {
+                        do {
+                            try self.realm.write {
+                                let newItem = Item()
+                                newItem.title = text
+                                
+                                currentCategory.items.append(newItem)
+                            }
+                        } catch {
+                            print("Error adding new item: \(error)")
                         }
-                    } catch {
-                        print("Error adding new item: \(error)")
                     }
-                }
                 }
                 self.tableView.reloadData()
             }
@@ -76,9 +76,12 @@ class ItemViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath)
         
         cell.textLabel?.text = items?[indexPath.row].title ?? "No items added"
+        
+        cell.accessoryType = items?[indexPath.row].done == true ? .checkmark : .none
         
         return cell 
     }
@@ -86,10 +89,43 @@ class ItemViewController: UITableViewController {
     // MARK: - Table view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        
+        if let item = items?[indexPath.row] {
+            do {
+                try realm.write {
+                    item.done = !item.done
+                }
+            } catch {
+                print("Error: \(error)")
+            }
+            tableView.reloadData()
+        }
+        
         tableView.deselectRow(at: indexPath, animated: true)
         
     }
     
+    //         MARK: - Swipe to delete row
     
-    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { (delete, view, handler) in
+            
+            
+            if let itemToDelte = self.items?[indexPath.row] {
+                
+                do {
+                    try self.realm.write {
+                        self.realm.delete(itemToDelte)
+                        self.tableView.reloadData()
+                    }
+                } catch {
+                    print("Error deleting item: \(error)")
+                }
+            }
+            
+        }
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
 }
+
