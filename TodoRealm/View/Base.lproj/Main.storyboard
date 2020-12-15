@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6TE-u1-9d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6TE-u1-9d3">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Category View Controller-->
+        <!--Category-->
         <scene sceneID="Mbr-ws-gJf">
             <objects>
                 <tableViewController id="gC3-0b-ZSu" customClass="CategoryViewController" customModule="TodoRealm" customModuleProvider="target" sceneMemberID="viewController">
@@ -30,17 +30,55 @@
                             <outlet property="delegate" destination="gC3-0b-ZSu" id="QJT-KP-4MW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="oYW-dv-i4b">
+                    <navigationItem key="navigationItem" title="Category" id="oYW-dv-i4b">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="jI7-Oz-xuU">
                             <connections>
                                 <action selector="addButtonPressed:" destination="gC3-0b-ZSu" id="3wj-Sm-WxL"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="A3z-58-Eqg" kind="show" identifier="goToItems" id="vNv-tN-qYX"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Td-7V-y5z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1860.8695652173915" y="73.660714285714278"/>
+        </scene>
+        <!--Items-->
+        <scene sceneID="LHc-JS-nqw">
+            <objects>
+                <tableViewController id="A3z-58-Eqg" customClass="ItemViewController" customModule="TodoRealm" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="0n6-ks-Cch">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ItemCell" id="vTn-j0-1g5">
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vTn-j0-1g5" id="Xoq-6e-tLC">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="A3z-58-Eqg" id="Iau-L7-snh"/>
+                            <outlet property="delegate" destination="A3z-58-Eqg" id="5in-b6-LYj"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Items" id="EDv-5P-5yG">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="pWI-jh-Qbc">
+                            <connections>
+                                <action selector="addButtonPressed:" destination="A3z-58-Eqg" id="J2V-Xg-KQE"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LkN-eP-lBW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2809" y="74"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Itt-dp-TeO">
@@ -48,6 +86,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6TE-u1-9d3" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KHf-kn-Yx3">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

@@ -18,6 +18,14 @@ class CategoryViewController: UITableViewController {
         super.viewDidLoad()
         
         load()
+        // navBarAppearance for setting color when title is large
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.backgroundColor = .systemTeal
+        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        
         
     }
     
@@ -59,12 +67,15 @@ class CategoryViewController: UITableViewController {
             }
         }
         
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Category name"
             textField = alertTextField
         }
         
         alert.addAction(save)
+        alert.addAction(cancel)
         present(alert, animated: true, completion: nil)
     }
     
@@ -85,9 +96,17 @@ class CategoryViewController: UITableViewController {
     // MARK: - Table view delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        performSegue(withIdentifier: "goToItems", sender: self)
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       
+        if let indexPath = tableView.indexPathForSelectedRow {
+            let destinationVC = segue.destination as! ItemViewController
+            destinationVC.selectedCategory = categories?[indexPath.row]
+        }
+    }
 }
 
